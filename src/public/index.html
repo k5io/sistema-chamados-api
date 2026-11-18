@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Chamados de Suporte Técnico</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f6f9; margin: 0; padding: 20px; color: #333; }
+        .container { max-width: 800px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h1 { color: #007bff; text-align: center; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, select, textarea { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        button { background: #007bff; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-size: 16px; }
+        button:hover { background: #0056b3; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #007bff; color: white; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sistema de Chamados</h1>
+        
+        <!-- Formulário para abrir chamado -->
+        <div class="form-group">
+            <label for="solicitante">Solicitante:</label>
+            <input type="text" id="solicitante" placeholder="Seu nome">
+        </div>
+        <div class="form-group">
+            <label for="categoria">Categoria:</label>
+            <input type="text" id="categoria" placeholder="Ex: Redes, Hardware...">
+        </div>
+        <div class="form-group">
+            <label for="descricao">Descrição do Problema:</label>
+            <textarea id="descricao" placeholder="Detalhes do problema..."></textarea>
+        </div>
+        <button onclick="criarChamado()">Abrir Chamado</button>
+
+        <!-- Tabela de chamados -->
+        <h2>Chamados Registrados</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Solicitante</th>
+                    <th>Categoria</th>
+                    <th>Descrição</th>
+                    <th>Status</th>
+                </tr>
+            W</thead>
+            <tbody id="tabela-chamados">
+                <!-- Os dados entram aqui via JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const API_URL = ''; // Vazio porque vai rodar no mesmo domínio do Render
+
+        async function carregarChamados() {
+            try {
+                const resposta = await fetch(`${API_URL}/chamados`);
+                const chamados = await resposta.json();
+                const tbody = document.getElementById('tabela-chamados');
+                tbody.innerHTML = '';
+                
+                chamados.forEach(c => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${c.id}</td>
+                        <td>${c.solicitante}</td>
+                        <td>${c.categoria}</td>
+                        <td>${c.descricao}</td>
+                        <td>${c.status || 'Pendente'}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (e) {
+                console.er("Erro ao carregar chamados:", e);
+            }
+        }
+
+        async function criarChamado() {
+            const solicitante = document.getElementById('solicitante').value;
+            const categoria = document.getElementById('categoria').value;
+            const descricao = document.getElementById('descricao').value;
+
+            if (!solicitante || !descricao) {
+                alert('Preencha os campos obrigatórios!');
+                return;
+            }
+
+            await fetch(`${API_URL}/chamados`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ solicitante, categoria, descricao })
+            });
+
+            document.getElementById('solicitante').value = '';
+            document.getElementById('categoria').value = '';
+            document.getElementById('descricao').value = '';
+            carregarChamados();
+        }
+
+        // Carregar a lista ao abrir a página
+        carregarChamados();
+    </script>
+</body>
+</html>

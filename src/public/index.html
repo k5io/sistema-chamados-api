@@ -4,145 +4,557 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Chamados de Suporte Técnico</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f6f9; margin: 0; padding: 20px; color: #333; }
-        .container { max-width: 1150px; margin: 0 auto; background: #fff; padding: 24px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
-        h1 { color: #007bff; text-align: center; margin-bottom: 24px; }
-        h2 { margin-top: 32px; color: #222; border-bottom: 2px solid #f0f2f5; padding-bottom: 8px; }
-        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 14px; }
-        input, select, textarea { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
-        textarea { resize: vertical; min-height: 70px; }
-        button { background: #007bff; color: white; border: none; padding: 10px 16px; border-radius: 4px; cursor: pointer; font-size: 15px; font-weight: bold; }
-        button:hover { background: #0056b3; }
-        .btn-salvar { background: #28a745; padding: 7px 12px; font-size: 13px; width: 100%; }
-        .btn-salvar:hover { background: #218838; }
-        .table-wrapper { overflow-x: auto; margin-top: 15px; }
-        table { width: 100%; border-collapse: collapse; min-width: 900px; }
-        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; vertical-align: top; font-size: 14px; }
-        th { background-color: #007bff; color: white; }
-        tr:nth-child(even) { background-color: #fafbfc; }
-        .badge { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 12px; font-weight: bold; margin-bottom: 6px; }
+        :root {
+            --bg: #f1f5f9;
+            --surface: #ffffff;
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-soft: #eff6ff;
+            --text: #0f172a;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --success: #16a34a;
+            --success-hover: #15803d;
+            --danger: #dc2626;
+            --warning: #d97706;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            padding: 24px 16px 60px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1240px;
+            margin: 0 auto;
+        }
+
+        /* Cabeçalho */
+        .hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+            color: #fff;
+            padding: 28px 32px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.15);
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .hero h1 {
+            font-size: 1.55rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .hero p {
+            color: #cbd5e1;
+            font-size: 0.92rem;
+            margin-top: 4px;
+        }
+
+        .hero-badge {
+            background: rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+
+        /* Resumo em Cards */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 860px) {
+            .stats { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 480px) {
+            .stats { grid-template-columns: 1fr; }
+        }
+
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px 20px;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+        }
+
+        .stat-card span {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--muted);
+            letter-spacing: 0.04em;
+        }
+
+        .stat-card strong {
+            display: block;
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-top: 4px;
+        }
+
+        /* Cards de Seção */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px 28px;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+            margin-bottom: 28px;
+        }
+
+        .section-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 0.86rem;
+            color: #334155;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.92rem;
+            color: var(--text);
+            background: #f8fafc;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 76px;
+        }
+
+        button {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 11px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.94rem;
+            font-weight: 700;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        button:hover {
+            background: var(--primary-dark);
+        }
+
+        button:active {
+            transform: scale(0.99);
+        }
+
+        .btn-abrir {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            padding: 12px 24px;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+        }
+
+        .btn-salvar {
+            background: var(--success);
+            padding: 7px 12px;
+            font-size: 0.82rem;
+            width: 100%;
+            margin-bottom: 6px;
+        }
+
+        .btn-salvar:hover {
+            background: var(--success-hover);
+        }
+
+        .btn-excluir {
+            background: #fff;
+            color: var(--danger);
+            border: 1px solid #fecaca;
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            width: 100%;
+        }
+
+        .btn-excluir:hover {
+            background: #fef2f2;
+        }
+
+        /* Filtros */
+        .filtros {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filtros input, .filtros select {
+            width: auto;
+            min-width: 180px;
+            padding: 7px 12px;
+            font-size: 0.85rem;
+        }
+
+        /* Tabela */
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 980px;
+            background: #fff;
+        }
+
+        th, td {
+            border-bottom: 1px solid var(--border);
+            border-right: 1px solid #f1f5f9;
+            padding: 11px 12px;
+            text-align: left;
+            vertical-align: top;
+            font-size: 0.87rem;
+        }
+
+        th:last-child, td:last-child {
+            border-right: none;
+        }
+
+        th {
+            background-color: #0f172a;
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        tr:hover td {
+            background-color: #f8fafc;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 9px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
         .prio-Baixa { background: #e2e8f0; color: #334155; }
         .prio-Média { background: #fef3c7; color: #92400e; }
         .prio-Alta { background: #fee2e2; color: #991b1b; }
-        .cell-input { min-width: 130px; font-size: 13px; padding: 6px; }
-        .cell-textarea { min-width: 180px; min-height: 55px; font-size: 13px; padding: 6px; }
+
+        .cell-input {
+            min-width: 130px;
+            font-size: 0.84rem;
+            padding: 6px 8px;
+        }
+
+        .cell-textarea {
+            min-width: 185px;
+            min-height: 60px;
+            font-size: 0.84rem;
+            padding: 6px 8px;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #0f172a;
+            color: #fff;
+            padding: 12px 18px;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transform: translateY(16px);
+            transition: all 0.25s ease;
+            pointer-events: none;
+            z-index: 99;
+        }
+
+        .toast.visivel {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Sistema de Chamados de Suporte Técnico</h1>
+        <header class="hero">
+            <div>
+                <h1>Sistema de Chamados de Suporte Técnico</h1>
+                <p>Abertura, priorização, atribuição de responsável e acompanhamento de ocorrências</p>
+            </div>
+            <div class="hero-badge">Painel de Suporte</div>
+        </header>
+
+        <!-- Indicadores -->
+        <section class="stats">
+            <div class="stat-card">
+                <span>Total de Chamados</span>
+                <strong id="stat-total">0</strong>
+            </div>
+            <div class="stat-card">
+                <span>Abertos / Em Andamento</span>
+                <strong id="stat-ativos" style="color: var(--primary);">0</strong>
+            </div>
+            <div class="stat-card">
+                <span>Prioridade Alta</span>
+                <strong id="stat-alta" style="color: var(--danger);">0</strong>
+            </div>
+            <div class="stat-card">
+                <span>Resolvidos</span>
+                <strong id="stat-resolvidos" style="color: var(--success);">0</strong>
+            </div>
+        </section>
 
         <!-- Formulário de Abertura -->
-        <div class="form-grid">
-            <div class="form-group">
-                <label for="solicitante">Solicitante *</label>
-                <input type="text" id="solicitante" placeholder="Nome do solicitante">
+        <section class="card">
+            <div class="section-title">
+                <span>Registrar Novo Chamado</span>
             </div>
-            <div class="form-group">
-                <label for="categoria">Categoria *</label>
-                <select id="categoria">
-                    <option value="Hardware">Hardware</option>
-                    <option value="Software">Software</option>
-                    <option value="Redes">Redes</option>
-                    <option value="Acesso / Senha">Acesso / Senha</option>
-                    <option value="Outros">Outros</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="prioridade">Nível de Prioridade *</label>
-                <select id="prioridade">
-                    <option value="Baixa">Baixa</option>
-                    <option value="Média" selected>Média</option>
-                    <option value="Alta">Alta</option>
-                </select>
-            </div>
-        </div>
 
-        <div class="form-group">
-            <label for="descricao">Descrição do Problema *</label>
-            <textarea id="descricao" placeholder="Descreva detalhadamente o problema encontrado..."></textarea>
-        </div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="solicitante">Solicitante *</label>
+                    <input type="text" id="solicitante" placeholder="Nome do solicitante">
+                </div>
+                <div class="form-group">
+                    <label for="categoria">Categoria *</label>
+                    <select id="categoria">
+                        <option value="Hardware">Hardware</option>
+                        <option value="Software">Software</option>
+                        <option value="Redes">Redes</option>
+                        <option value="Acesso / Senha">Acesso / Senha</option>
+                        <option value="Outros">Outros</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="prioridade">Nível de Prioridade *</label>
+                    <select id="prioridade">
+                        <option value="Baixa">Baixa</option>
+                        <option value="Média" selected>Média</option>
+                        <option value="Alta">Alta</option>
+                    </select>
+                </div>
+            </div>
 
-        <button onclick="criarChamado()">Abrir Chamado</button>
+            <div class="form-group">
+                <label for="descricao">Descrição do Problema *</label>
+                <textarea id="descricao" placeholder="Descreva detalhadamente o problema encontrado..."></textarea>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="responsavel">Nome do Responsável</label>
+                    <input type="text" id="responsavel" placeholder="Ex: Técnico responsável pelo chamado">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="observacao">Observação</label>
+                <textarea id="observacao" placeholder="Adicione observações iniciais, setor, patrimônio ou anotações..."></textarea>
+            </div>
+
+            <button class="btn-abrir" onclick="criarChamado()">Abrir Chamado</button>
+        </section>
 
         <!-- Listagem e Atendimento -->
-        <h2>Chamados Registrados e Atendimento</h2>
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Solicitante / Categoria</th>
-                        <th>Descrição do Problema</th>
-                        <th>Prioridade</th>
-                        <th>Status</th>
-                        <th>Responsável</th>
-                        <th>Observações / Solução</th>
-                        <th>Ação</th>
-                    </tr>
-                </thead>
-                <tbody id="tabela-chamados"></tbody>
-            </table>
-        </div>
+        <section class="card">
+            <div class="section-title">
+                <span>Chamados Registrados e Atendimento</span>
+                <div class="filtros">
+                    <input type="text" id="filtro-busca" placeholder="Buscar solicitante, responsável..." oninput="renderizarTabela()">
+                    <select id="filtro-status" onchange="renderizarTabela()">
+                        <option value="Todos">Todos os Status</option>
+                        <option value="Aberto">Aberto</option>
+                        <option value="Em andamento">Em andamento</option>
+                        <option value="Resolvido">Resolvido</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Solicitante / Categoria</th>
+                            <th>Descrição do Problema</th>
+                            <th>Prioridade</th>
+                            <th>Status</th>
+                            <th>Responsável</th>
+                            <th>Observações / Solução</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-chamados"></tbody>
+                </table>
+            </div>
+        </section>
     </div>
+
+    <div id="toast" class="toast"></div>
 
     <script>
         const API_URL = '';
+        let chamadosCache = [];
+
+        function mostrarToast(mensagem) {
+            const toast = document.getElementById('toast');
+            toast.textContent = mensagem;
+            toast.classList.add('visivel');
+            setTimeout(() => toast.classList.remove('visivel'), 2800);
+        }
+
+        function atualizarStats(chamados) {
+            document.getElementById('stat-total').textContent = chamados.length;
+            document.getElementById('stat-ativos').textContent = chamados.filter(c => c.status !== 'Resolvido').length;
+            document.getElementById('stat-alta').textContent = chamados.filter(c => (c.prioridade || 'Média') === 'Alta' && c.status !== 'Resolvido').length;
+            document.getElementById('stat-resolvidos').textContent = chamados.filter(c => c.status === 'Resolvido').length;
+        }
 
         async function carregarChamados() {
             try {
                 const resposta = await fetch(`${API_URL}/chamados`);
-                const chamados = await resposta.json();
-                const tbody = document.getElementById('tabela-chamados');
-                tbody.innerHTML = '';
-
-                chamados.forEach(c => {
-                    const prioridadeAtual = c.prioridade || 'Média';
-                    const statusAtual = c.status || 'Aberto';
-                    const responsavelAtual = c.responsavel || '';
-                    const observacoesAtual = c.observacoes || c.observacoes_solucao || '';
-
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td><strong>#${c.id}</strong></td>
-                        <td>
-                            <strong>${c.solicitante}</strong><br>
-                            <small>${c.categoria || 'Geral'}</small>
-                        </td>
-                        <td>${c.descricao}</td>
-                        <td>
-                            <span class="badge prio-${prioridadeAtual}">${prioridadeAtual}</span>
-                            <select id="prioridade-${c.id}" class="cell-input">
-                                <option value="Baixa" ${prioridadeAtual === 'Baixa' ? 'selected' : ''}>Baixa</option>
-                                <option value="Média" ${prioridadeAtual === 'Média' ? 'selected' : ''}>Média</option>
-                                <option value="Alta" ${prioridadeAtual === 'Alta' ? 'selected' : ''}>Alta</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select id="status-${c.id}" class="cell-input">
-                                <option value="Aberto" ${statusAtual === 'Aberto' || statusAtual === 'Pendente' ? 'selected' : ''}>Aberto</option>
-                                <option value="Em andamento" ${statusAtual === 'Em andamento' ? 'selected' : ''}>Em andamento</option>
-                                <option value="Resolvido" ${statusAtual === 'Resolvido' ? 'selected' : ''}>Resolvido</option>
-                            </select>
-                        </td>
-                        <td>
-                            <input type="text" id="responsavel-${c.id}" class="cell-input" value="${responsavelAtual}" placeholder="Técnico responsável">
-                        </td>
-                        <td>
-                            <textarea id="observacoes-${c.id}" class="cell-textarea" placeholder="Anotações ou solução...">${observacoesAtual}</textarea>
-                        </td>
-                        <td>
-                            <button class="btn-salvar" onclick="atualizarChamado(${c.id})">Salvar</button>
-                        </td>
-                    `;
-                    tbody.appendChild(tr);
-                });
+                chamadosCache = await resposta.json();
+                atualizarStats(chamadosCache);
+                renderizarTabela();
             } catch (e) {
                 console.error('Erro ao carregar chamados:', e);
+                mostrarToast('Erro ao carregar chamados.');
             }
+        }
+
+        function renderizarTabela() {
+            const tbody = document.getElementById('tabela-chamados');
+            const busca = document.getElementById('filtro-busca').value.trim().toLowerCase();
+            const statusFiltro = document.getElementById('filtro-status').value;
+
+            const filtrados = chamadosCache.filter(c => {
+                const solicitante = (c.solicitante || '').toLowerCase();
+                const responsavel = (c.responsavel || '').toLowerCase();
+                const descricao = (c.descricao || '').toLowerCase();
+                const statusAtual = c.status || 'Aberto';
+
+                const bateBusca = !busca ||
+                    solicitante.includes(busca) ||
+                    responsavel.includes(busca) ||
+                    descricao.includes(busca);
+
+                const bateStatus = statusFiltro === 'Todos' || statusAtual === statusFiltro;
+
+                return bateBusca && bateStatus;
+            });
+
+            tbody.innerHTML = '';
+
+            if (filtrados.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding:24px; color:#64748b;">Nenhum chamado encontrado.</td></tr>';
+                return;
+            }
+
+            filtrados.forEach(c => {
+                const prioridadeAtual = c.prioridade || 'Média';
+                const statusAtual = c.status || 'Aberto';
+                const responsavelAtual = c.responsavel || '';
+                const observacoesAtual = c.observacoes || c.observacoes_solucao || '';
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>#${c.id}</strong></td>
+                    <td>
+                        <strong>${c.solicitante}</strong><br>
+                        <small style="color:#64748b;">${c.categoria || 'Geral'}</small>
+                    </td>
+                    <td>${c.descricao}</td>
+                    <td>
+                        <span class="badge prio-${prioridadeAtual}">${prioridadeAtual}</span>
+                        <select id="prioridade-${c.id}" class="cell-input">
+                            <option value="Baixa" ${prioridadeAtual === 'Baixa' ? 'selected' : ''}>Baixa</option>
+                            <option value="Média" ${prioridadeAtual === 'Média' ? 'selected' : ''}>Média</option>
+                            <option value="Alta" ${prioridadeAtual === 'Alta' ? 'selected' : ''}>Alta</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="status-${c.id}" class="cell-input">
+                            <option value="Aberto" ${statusAtual === 'Aberto' || statusAtual === 'Pendente' ? 'selected' : ''}>Aberto</option>
+                            <option value="Em andamento" ${statusAtual === 'Em andamento' ? 'selected' : ''}>Em andamento</option>
+                            <option value="Resolvido" ${statusAtual === 'Resolvido' ? 'selected' : ''}>Resolvido</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" id="responsavel-${c.id}" class="cell-input" value="${responsavelAtual}" placeholder="Técnico responsável">
+                    </td>
+                    <td>
+                        <textarea id="observacoes-${c.id}" class="cell-textarea" placeholder="Observações ou solução...">${observacoesAtual}</textarea>
+                    </td>
+                    <td>
+                        <button class="btn-salvar" onclick="atualizarChamado(${c.id})">Salvar</button>
+                        <button class="btn-excluir" onclick="excluirChamado(${c.id})">Excluir</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
         }
 
         async function criarChamado() {
@@ -150,9 +562,11 @@
             const categoria = document.getElementById('categoria').value;
             const prioridade = document.getElementById('prioridade').value;
             const descricao = document.getElementById('descricao').value.trim();
+            const responsavel = document.getElementById('responsavel').value.trim();
+            const observacoes = document.getElementById('observacao').value.trim();
 
             if (!solicitante || !descricao) {
-                alert('Preencha o solicitante e a descrição do problema!');
+                mostrarToast('Preencha o solicitante e a descrição do problema!');
                 return;
             }
 
@@ -160,20 +574,31 @@
                 const resposta = await fetch(`${API_URL}/chamados`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ solicitante, categoria, prioridade, descricao })
+                    body: JSON.stringify({
+                        solicitante,
+                        categoria,
+                        prioridade,
+                        descricao,
+                        responsavel,
+                        observacoes
+                    })
                 });
 
                 if (!resposta.ok) {
-                    alert('Erro ao abrir chamado. Verifique o console.');
+                    mostrarToast('Erro ao abrir chamado.');
                     return;
                 }
 
                 document.getElementById('solicitante').value = '';
                 document.getElementById('descricao').value = '';
+                document.getElementById('responsavel').value = '';
+                document.getElementById('observacao').value = '';
                 document.getElementById('prioridade').value = 'Média';
+                mostrarToast('Chamado aberto com sucesso!');
                 carregarChamados();
             } catch (e) {
                 console.error('Erro ao criar chamado:', e);
+                mostrarToast('Falha na comunicação com o servidor.');
             }
         }
 
@@ -191,20 +616,41 @@
                         prioridade,
                         status,
                         responsavel,
-                        observacoes,
-                        observacoes_solucao: observacoes
+                        observacoes
                     })
                 });
 
                 if (!resposta.ok) {
-                    alert('Não foi possível atualizar. Confira se a rota PUT /chamados/:id está ativa no back-end.');
+                    mostrarToast('Não foi possível atualizar o chamado.');
                     return;
                 }
 
-                alert(`Chamado #${id} atualizado com sucesso!`);
+                mostrarToast(`Chamado #${id} atualizado!`);
                 carregarChamados();
             } catch (e) {
                 console.error('Erro ao atualizar chamado:', e);
+                mostrarToast('Erro ao atualizar chamado.');
+            }
+        }
+
+        async function excluirChamado(id) {
+            if (!confirm(`Deseja realmente excluir o chamado #${id}?`)) return;
+
+            try {
+                const resposta = await fetch(`${API_URL}/chamados/${id}`, {
+                    method: 'DELETE'
+                });
+
+                if (!resposta.ok) {
+                    mostrarToast('Erro ao excluir chamado.');
+                    return;
+                }
+
+                mostrarToast(`Chamado #${id} excluído.`);
+                carregarChamados();
+            } catch (e) {
+                console.error('Erro ao excluir chamado:', e);
+                mostrarToast('Erro ao excluir chamado.');
             }
         }
 

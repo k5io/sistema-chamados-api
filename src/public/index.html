@@ -6,49 +6,87 @@
     <title>Sistema de Chamados de Suporte Técnico</title>
     <style>
         body { font-family: Arial, sans-serif; background-color: #f4f6f9; margin: 0; padding: 20px; color: #333; }
-        .container { max-width: 800px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        h1 { color: #007bff; text-align: center; }
+        .container { max-width: 1150px; margin: 0 auto; background: #fff; padding: 24px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+        h1 { color: #007bff; text-align: center; margin-bottom: 24px; }
+        h2 { margin-top: 32px; color: #222; border-bottom: 2px solid #f0f2f5; padding-bottom: 8px; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; }
         .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input, select, textarea { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
-        button { background: #007bff; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-size: 16px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 14px; }
+        input, select, textarea { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+        textarea { resize: vertical; min-height: 70px; }
+        button { background: #007bff; color: white; border: none; padding: 10px 16px; border-radius: 4px; cursor: pointer; font-size: 15px; font-weight: bold; }
         button:hover { background: #0056b3; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        .btn-salvar { background: #28a745; padding: 7px 12px; font-size: 13px; width: 100%; }
+        .btn-salvar:hover { background: #218838; }
+        .table-wrapper { overflow-x: auto; margin-top: 15px; }
+        table { width: 100%; border-collapse: collapse; min-width: 900px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; vertical-align: top; font-size: 14px; }
         th { background-color: #007bff; color: white; }
+        tr:nth-child(even) { background-color: #fafbfc; }
+        .badge { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 12px; font-weight: bold; margin-bottom: 6px; }
+        .prio-Baixa { background: #e2e8f0; color: #334155; }
+        .prio-Média { background: #fef3c7; color: #92400e; }
+        .prio-Alta { background: #fee2e2; color: #991b1b; }
+        .cell-input { min-width: 130px; font-size: 13px; padding: 6px; }
+        .cell-textarea { min-width: 180px; min-height: 55px; font-size: 13px; padding: 6px; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Sistema de Chamados</h1>
-        
-        <div class="form-group">
-            <label for="solicitante">Solicitante:</label>
-            <input type="text" id="solicitante" placeholder="Seu nome">
+        <h1>Sistema de Chamados de Suporte Técnico</h1>
+
+        <!-- Formulário de Abertura -->
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="solicitante">Solicitante *</label>
+                <input type="text" id="solicitante" placeholder="Nome do solicitante">
+            </div>
+            <div class="form-group">
+                <label for="categoria">Categoria *</label>
+                <select id="categoria">
+                    <option value="Hardware">Hardware</option>
+                    <option value="Software">Software</option>
+                    <option value="Redes">Redes</option>
+                    <option value="Acesso / Senha">Acesso / Senha</option>
+                    <option value="Outros">Outros</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="prioridade">Nível de Prioridade *</label>
+                <select id="prioridade">
+                    <option value="Baixa">Baixa</option>
+                    <option value="Média" selected>Média</option>
+                    <option value="Alta">Alta</option>
+                </select>
+            </div>
         </div>
+
         <div class="form-group">
-            <label for="categoria">Categoria:</label>
-            <input type="text" id="categoria" placeholder="Ex: Redes, Hardware...">
+            <label for="descricao">Descrição do Problema *</label>
+            <textarea id="descricao" placeholder="Descreva detalhadamente o problema encontrado..."></textarea>
         </div>
-        <div class="form-group">
-            <label for="descricao">Descrição do Problema:</label>
-            <textarea id="descricao" placeholder="Detalhes do problema..."></textarea>
-        </div>
+
         <button onclick="criarChamado()">Abrir Chamado</button>
 
-        <h2>Chamados Registrados</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Solicitante</th>
-                    <th>Categoria</th>
-                    <th>Descrição</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody id="tabela-chamados"></tbody>
-        </table>
+        <!-- Listagem e Atendimento -->
+        <h2>Chamados Registrados e Atendimento</h2>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Solicitante / Categoria</th>
+                        <th>Descrição do Problema</th>
+                        <th>Prioridade</th>
+                        <th>Status</th>
+                        <th>Responsável</th>
+                        <th>Observações / Solução</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+                <tbody id="tabela-chamados"></tbody>
+            </table>
+        </div>
     </div>
 
     <script>
@@ -62,41 +100,112 @@
                 tbody.innerHTML = '';
 
                 chamados.forEach(c => {
+                    const prioridadeAtual = c.prioridade || 'Média';
+                    const statusAtual = c.status || 'Aberto';
+                    const responsavelAtual = c.responsavel || '';
+                    const observacoesAtual = c.observacoes || c.observacoes_solucao || '';
+
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
-                        <td>${c.id}</td>
-                        <td>${c.solicitante}</td>
-                        <td>${c.categoria}</td>
+                        <td><strong>#${c.id}</strong></td>
+                        <td>
+                            <strong>${c.solicitante}</strong><br>
+                            <small>${c.categoria || 'Geral'}</small>
+                        </td>
                         <td>${c.descricao}</td>
-                        <td>${c.status || 'Pendente'}</td>
+                        <td>
+                            <span class="badge prio-${prioridadeAtual}">${prioridadeAtual}</span>
+                            <select id="prioridade-${c.id}" class="cell-input">
+                                <option value="Baixa" ${prioridadeAtual === 'Baixa' ? 'selected' : ''}>Baixa</option>
+                                <option value="Média" ${prioridadeAtual === 'Média' ? 'selected' : ''}>Média</option>
+                                <option value="Alta" ${prioridadeAtual === 'Alta' ? 'selected' : ''}>Alta</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select id="status-${c.id}" class="cell-input">
+                                <option value="Aberto" ${statusAtual === 'Aberto' || statusAtual === 'Pendente' ? 'selected' : ''}>Aberto</option>
+                                <option value="Em andamento" ${statusAtual === 'Em andamento' ? 'selected' : ''}>Em andamento</option>
+                                <option value="Resolvido" ${statusAtual === 'Resolvido' ? 'selected' : ''}>Resolvido</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" id="responsavel-${c.id}" class="cell-input" value="${responsavelAtual}" placeholder="Técnico responsável">
+                        </td>
+                        <td>
+                            <textarea id="observacoes-${c.id}" class="cell-textarea" placeholder="Anotações ou solução...">${observacoesAtual}</textarea>
+                        </td>
+                        <td>
+                            <button class="btn-salvar" onclick="atualizarChamado(${c.id})">Salvar</button>
+                        </td>
                     `;
                     tbody.appendChild(tr);
                 });
             } catch (e) {
-                console.error("Erro ao carregar chamados:", e);
+                console.error('Erro ao carregar chamados:', e);
             }
         }
 
         async function criarChamado() {
-            const solicitante = document.getElementById('solicitante').value;
+            const solicitante = document.getElementById('solicitante').value.trim();
             const categoria = document.getElementById('categoria').value;
-            const descricao = document.getElementById('descricao').value;
+            const prioridade = document.getElementById('prioridade').value;
+            const descricao = document.getElementById('descricao').value.trim();
 
             if (!solicitante || !descricao) {
-                alert('Preencha os campos obrigatórios!');
+                alert('Preencha o solicitante e a descrição do problema!');
                 return;
             }
 
-            await fetch(`${API_URL}/chamados`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ solicitante, categoria, descricao })
-            });
+            try {
+                const resposta = await fetch(`${API_URL}/chamados`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ solicitante, categoria, prioridade, descricao })
+                });
 
-            document.getElementById('solicitante').value = '';
-            document.getElementById('categoria').value = '';
-            document.getElementById('descricao').value = '';
-            carregarChamados();
+                if (!resposta.ok) {
+                    alert('Erro ao abrir chamado. Verifique o console.');
+                    return;
+                }
+
+                document.getElementById('solicitante').value = '';
+                document.getElementById('descricao').value = '';
+                document.getElementById('prioridade').value = 'Média';
+                carregarChamados();
+            } catch (e) {
+                console.error('Erro ao criar chamado:', e);
+            }
+        }
+
+        async function atualizarChamado(id) {
+            const prioridade = document.getElementById(`prioridade-${id}`).value;
+            const status = document.getElementById(`status-${id}`).value;
+            const responsavel = document.getElementById(`responsavel-${id}`).value.trim();
+            const observacoes = document.getElementById(`observacoes-${id}`).value.trim();
+
+            try {
+                const resposta = await fetch(`${API_URL}/chamados/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        prioridade,
+                        status,
+                        responsavel,
+                        observacoes,
+                        observacoes_solucao: observacoes
+                    })
+                });
+
+                if (!resposta.ok) {
+                    alert('Não foi possível atualizar. Confira se a rota PUT /chamados/:id está ativa no back-end.');
+                    return;
+                }
+
+                alert(`Chamado #${id} atualizado com sucesso!`);
+                carregarChamados();
+            } catch (e) {
+                console.error('Erro ao atualizar chamado:', e);
+            }
         }
 
         carregarChamados();

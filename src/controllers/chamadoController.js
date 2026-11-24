@@ -14,13 +14,20 @@ const listarChamados = async (req, res) => {
 // 2. Criar um novo chamado (POST)
 const criarChamado = async (req, res) => {
   try {
-    const { solicitante, categoria, descricao, prioridade } = req.body;
+    const { solicitante, categoria, descricao, prioridade, responsavel, observacoes } = req.body;
 
     if (!solicitante || !descricao) {
       return res.status(400).json({ erro: 'Os campos "solicitante" e "descricao" são obrigatórios.' });
     }
 
-    const novoChamado = await ChamadoModel.criar({ solicitante, categoria, descricao, prioridade });
+    const novoChamado = await ChamadoModel.criar({
+      solicitante,
+      categoria,
+      descricao,
+      prioridade,
+      responsavel,
+      observacoes
+    });
 
     return res.status(201).json({
       mensagem: 'Chamado aberto com sucesso!',
@@ -36,9 +43,14 @@ const criarChamado = async (req, res) => {
 const atualizarChamado = async (req, res) => {
   try {
     const { id } = req.params;
-    const { status, responsavel, observacoes } = req.body;
+    const { status, prioridade, responsavel, observacoes } = req.body;
 
-    const chamadoAtualizado = await ChamadoModel.atualizar(id, { status, responsavel, observacoes });
+    const chamadoAtualizado = await ChamadoModel.atualizar(id, {
+      status,
+      prioridade,
+      responsavel,
+      observacoes
+    });
 
     if (!chamadoAtualizado) {
       return res.status(404).json({ erro: 'Chamado não encontrado.' });

@@ -14,13 +14,15 @@
             --primary: #2563eb;
             --primary-dark: #1d4ed8;
             --primary-soft: #eff6ff;
+            --dev: #7c3aed;
+            --dev-dark: #6d28d9;
+            --dev-soft: #f5f3ff;
             --text: #0f172a;
             --muted: #64748b;
             --border: #e2e8f0;
             --success: #16a34a;
             --success-hover: #15803d;
             --danger: #dc2626;
-            --warning: #d97706;
         }
 
         * {
@@ -33,8 +35,110 @@
         body {
             background-color: var(--bg);
             color: var(--text);
-            padding: 24px 16px 60px;
             line-height: 1.5;
+            min-height: 100vh;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* ==================== TELA DE AUTENTICAÇÃO ==================== */
+        .auth-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 16px;
+            background: radial-gradient(circle at top left, #1e3a8a 0%, #0f172a 55%, #1e1b4b 100%);
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 440px;
+            background: var(--surface);
+            border-radius: 18px;
+            padding: 32px 28px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .auth-brand {
+            text-align: center;
+            margin-bottom: 22px;
+        }
+
+        .auth-brand h1 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--text);
+            letter-spacing: -0.02em;
+        }
+
+        .auth-brand p {
+            font-size: 0.86rem;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        .auth-tabs {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            background: #f1f5f9;
+            padding: 5px;
+            border-radius: 12px;
+            margin-bottom: 22px;
+        }
+
+        .auth-tab {
+            background: transparent;
+            color: var(--muted);
+            padding: 9px 6px;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .auth-tab.active {
+            background: #fff;
+            color: var(--primary);
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+        }
+
+        .auth-tab.dev-tab.active {
+            color: var(--dev);
+        }
+
+        .dev-hint {
+            background: var(--dev-soft);
+            border: 1px solid #ddd6fe;
+            color: #4c1d95;
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            margin-bottom: 16px;
+        }
+
+        .dev-hint button {
+            margin-top: 8px;
+            background: var(--dev);
+            color: #fff;
+            font-size: 0.76rem;
+            padding: 5px 10px;
+            border-radius: 6px;
+        }
+
+        .dev-hint button:hover {
+            background: var(--dev-dark);
+        }
+
+        /* ==================== APLICAÇÃO PRINCIPAL ==================== */
+        .app-shell {
+            padding: 24px 16px 60px;
         }
 
         .container {
@@ -42,11 +146,10 @@
             margin: 0 auto;
         }
 
-        /* Cabeçalho */
         .hero {
             background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
             color: #fff;
-            padding: 28px 32px;
+            padding: 26px 32px;
             border-radius: 16px;
             box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.15);
             margin-bottom: 24px;
@@ -54,28 +157,56 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 12px;
+            gap: 14px;
         }
 
         .hero h1 {
-            font-size: 1.55rem;
+            font-size: 1.5rem;
             font-weight: 800;
             letter-spacing: -0.02em;
         }
 
         .hero p {
             color: #cbd5e1;
-            font-size: 0.92rem;
-            margin-top: 4px;
+            font-size: 0.9rem;
+            margin-top: 3px;
         }
 
-        .hero-badge {
+        .user-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .user-pill {
             background: rgba(255, 255, 255, 0.14);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.22);
             padding: 6px 14px;
             border-radius: 999px;
             font-size: 0.82rem;
             font-weight: 600;
+        }
+
+        .user-pill.dev-pill {
+            background: rgba(139, 92, 246, 0.3);
+            border-color: rgba(196, 181, 253, 0.5);
+        }
+
+        .btn-sair {
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 7px 14px;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-sair:hover {
+            background: rgba(220, 38, 38, 0.85);
+            border-color: transparent;
         }
 
         /* Resumo em Cards */
@@ -199,6 +330,18 @@
 
         button:active {
             transform: scale(0.99);
+        }
+
+        .btn-full {
+            width: 100%;
+        }
+
+        .btn-dev {
+            background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+        }
+
+        .btn-dev:hover {
+            background: var(--dev-dark);
         }
 
         .btn-abrir {
@@ -338,125 +481,203 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <header class="hero">
-            <div>
-                <h1>Sistema de Chamados de Suporte Técnico</h1>
-                <p>Abertura, priorização, atribuição de responsável e acompanhamento de ocorrências</p>
-            </div>
-            <div class="hero-badge">Painel de Suporte</div>
-        </header>
 
-        <!-- Indicadores -->
-        <section class="stats">
-            <div class="stat-card">
-                <span>Total de Chamados</span>
-                <strong id="stat-total">0</strong>
-            </div>
-            <div class="stat-card">
-                <span>Abertos / Em Andamento</span>
-                <strong id="stat-ativos" style="color: var(--primary);">0</strong>
-            </div>
-            <div class="stat-card">
-                <span>Prioridade Alta</span>
-                <strong id="stat-alta" style="color: var(--danger);">0</strong>
-            </div>
-            <div class="stat-card">
-                <span>Resolvidos</span>
-                <strong id="stat-resolvidos" style="color: var(--success);">0</strong>
-            </div>
-        </section>
-
-        <!-- Formulário de Abertura -->
-        <section class="card">
-            <div class="section-title">
-                <span>Registrar Novo Chamado</span>
+    <!-- ==================== TELA DE LOGIN / CADASTRO / DEV ==================== -->
+    <div id="tela-auth" class="auth-wrapper">
+        <div class="auth-card">
+            <div class="auth-brand">
+                <h1>ServiceDesk</h1>
+                <p>Acesse o sistema de chamados de suporte técnico</p>
             </div>
 
-            <div class="form-grid">
+            <div class="auth-tabs">
+                <button type="button" id="tab-login" class="auth-tab active" onclick="trocarAbaAuth('login')">Entrar</button>
+                <button type="button" id="tab-cadastro" class="auth-tab" onclick="trocarAbaAuth('cadastro')">Cadastrar</button>
+                <button type="button" id="tab-dev" class="auth-tab dev-tab" onclick="trocarAbaAuth('dev')">Desenvolvedor</button>
+            </div>
+
+            <!-- Form Login Usuário -->
+            <form id="form-login" onsubmit="fazerLoginUsuario(event)">
                 <div class="form-group">
-                    <label for="solicitante">Solicitante *</label>
-                    <input type="text" id="solicitante" placeholder="Nome do solicitante">
+                    <label for="login-email">E-mail ou Usuário *</label>
+                    <input type="text" id="login-email" placeholder="Ex: usuario@empresa.com" required>
                 </div>
                 <div class="form-group">
-                    <label for="categoria">Categoria *</label>
-                    <select id="categoria">
-                        <option value="Hardware">Hardware</option>
-                        <option value="Software">Software</option>
-                        <option value="Redes">Redes</option>
-                        <option value="Acesso / Senha">Acesso / Senha</option>
-                        <option value="Outros">Outros</option>
-                    </select>
+                    <label for="login-senha">Senha *</label>
+                    <input type="password" id="login-senha" placeholder="Sua senha" required>
+                </div>
+                <button type="submit" class="btn-full">Entrar no Sistema</button>
+            </form>
+
+            <!-- Form Cadastro Usuário -->
+            <form id="form-cadastro" class="hidden" onsubmit="cadastrarUsuario(event)">
+                <div class="form-group">
+                    <label for="cad-nome">Nome Completo *</label>
+                    <input type="text" id="cad-nome" placeholder="Seu nome" required>
                 </div>
                 <div class="form-group">
-                    <label for="prioridade">Nível de Prioridade *</label>
-                    <select id="prioridade">
-                        <option value="Baixa">Baixa</option>
-                        <option value="Média" selected>Média</option>
-                        <option value="Alta">Alta</option>
-                    </select>
+                    <label for="cad-email">E-mail *</label>
+                    <input type="email" id="cad-email" placeholder="seu.email@empresa.com" required>
                 </div>
-            </div>
-
-            <div class="form-group">
-                <label for="descricao">Descrição do Problema *</label>
-                <textarea id="descricao" placeholder="Descreva detalhadamente o problema encontrado..."></textarea>
-            </div>
-
-            <div class="form-grid">
                 <div class="form-group">
-                    <label for="responsavel">Nome do Responsável</label>
-                    <input type="text" id="responsavel" placeholder="Ex: Técnico responsável pelo chamado">
+                    <label for="cad-senha">Senha *</label>
+                    <input type="password" id="cad-senha" placeholder="Crie uma senha" required>
                 </div>
-            </div>
+                <button type="submit" class="btn-full">Criar Conta e Entrar</button>
+            </form>
 
-            <div class="form-group">
-                <label for="observacao">Observação</label>
-                <textarea id="observacao" placeholder="Adicione observações iniciais, setor, patrimônio ou anotações..."></textarea>
-            </div>
-
-            <button class="btn-abrir" onclick="criarChamado()">Abrir Chamado</button>
-        </section>
-
-        <!-- Listagem e Atendimento -->
-        <section class="card">
-            <div class="section-title">
-                <span>Chamados Registrados e Atendimento</span>
-                <div class="filtros">
-                    <input type="text" id="filtro-busca" placeholder="Buscar solicitante, responsável..." oninput="renderizarTabela()">
-                    <select id="filtro-status" onchange="renderizarTabela()">
-                        <option value="Todos">Todos os Status</option>
-                        <option value="Aberto">Aberto</option>
-                        <option value="Em andamento">Em andamento</option>
-                        <option value="Resolvido">Resolvido</option>
-                    </select>
+            <!-- Form Login Desenvolvedor -->
+            <form id="form-dev" class="hidden" onsubmit="fazerLoginDev(event)">
+                <div class="dev-hint">
+                    <strong>Modo Desenvolvedor:</strong> Acesso técnico para testes e demonstração.<br>
+                    Usuário: <code>dev@sistema.local</code> | Chave: <code>dev123</code>
+                    <div>
+                        <button type="button" onclick="preencherDev()">Preencher acesso dev</button>
+                    </div>
                 </div>
-            </div>
+                <div class="form-group">
+                    <label for="dev-usuario">Usuário Desenvolvedor *</label>
+                    <input type="text" id="dev-usuario" placeholder="dev@sistema.local" required>
+                </div>
+                <div class="form-group">
+                    <label for="dev-chave">Chave / Senha de Desenvolvedor *</label>
+                    <input type="password" id="dev-chave" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn-full btn-dev">Entrar como Desenvolvedor</button>
+            </form>
+        </div>
+    </div>
 
-            <div class="table-wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Solicitante / Categoria</th>
-                            <th>Descrição do Problema</th>
-                            <th>Prioridade</th>
-                            <th>Status</th>
-                            <th>Responsável</th>
-                            <th>Observações / Solução</th>
-                            <th>Ação</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tabela-chamados"></tbody>
-                </table>
-            </div>
-        </section>
+    <!-- ==================== APLICAÇÃO PRINCIPAL ==================== -->
+    <div id="tela-sistema" class="app-shell hidden">
+        <div class="container">
+            <header class="hero">
+                <div>
+                    <h1>Sistema de Chamados de Suporte Técnico</h1>
+                    <p>Abertura, priorização, atribuição de responsável e acompanhamento de ocorrências</p>
+                </div>
+                <div class="user-bar">
+                    <span id="badge-sessao" class="user-pill">Usuário</span>
+                    <button type="button" class="btn-sair" onclick="sairDoSistema()">Sair</button>
+                </div>
+            </header>
+
+            <!-- Indicadores -->
+            <section class="stats">
+                <div class="stat-card">
+                    <span>Total de Chamados</span>
+                    <strong id="stat-total">0</strong>
+                </div>
+                <div class="stat-card">
+                    <span>Abertos / Em Andamento</span>
+                    <strong id="stat-ativos" style="color: var(--primary);">0</strong>
+                </div>
+                <div class="stat-card">
+                    <span>Prioridade Alta</span>
+                    <strong id="stat-alta" style="color: var(--danger);">0</strong>
+                </div>
+                <div class="stat-card">
+                    <span>Resolvidos</span>
+                    <strong id="stat-resolvidos" style="color: var(--success);">0</strong>
+                </div>
+            </section>
+
+            <!-- Formulário de Abertura -->
+            <section class="card">
+                <div class="section-title">
+                    <span>Registrar Novo Chamado</span>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="solicitante">Solicitante *</label>
+                        <input type="text" id="solicitante" placeholder="Nome do solicitante">
+                    </div>
+                    <div class="form-group">
+                        <label for="categoria">Categoria *</label>
+                        <select id="categoria">
+                            <option value="Hardware">Hardware</option>
+                            <option value="Software">Software</option>
+                            <option value="Redes">Redes</option>
+                            <option value="Acesso / Senha">Acesso / Senha</option>
+                            <option value="Outros">Outros</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="prioridade">Nível de Prioridade *</label>
+                        <select id="prioridade">
+                            <option value="Baixa">Baixa</option>
+                            <option value="Média" selected>Média</option>
+                            <option value="Alta">Alta</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="descricao">Descrição do Problema *</label>
+                    <textarea id="descricao" placeholder="Descreva detalhadamente o problema encontrado..."></textarea>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="responsavel">Nome do Responsável</label>
+                        <input type="text" id="responsavel" placeholder="Ex: Técnico responsável pelo chamado">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="observacao">Observação</label>
+                    <textarea id="observacao" placeholder="Adicione observações iniciais, setor, patrimônio ou anotações..."></textarea>
+                </div>
+
+                <button class="btn-abrir" onclick="criarChamado()">Abrir Chamado</button>
+            </section>
+
+            <!-- Listagem e Atendimento -->
+            <section class="card">
+                <div class="section-title">
+                    <span>Chamados Registrados e Atendimento</span>
+                    <div class="filtros">
+                        <input type="text" id="filtro-busca" placeholder="Buscar solicitante, responsável..." oninput="renderizarTabela()">
+                        <select id="filtro-status" onchange="renderizarTabela()">
+                            <option value="Todos">Todos os Status</option>
+                            <option value="Aberto">Aberto</option>
+                            <option value="Em andamento">Em andamento</option>
+                            <option value="Resolvido">Resolvido</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Solicitante / Categoria</th>
+                                <th>Descrição do Problema</th>
+                                <th>Prioridade</th>
+                                <th>Status</th>
+                                <th>Responsável</th>
+                                <th>Observações / Solução</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-chamados"></tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
     </div>
 
     <div id="toast" class="toast"></div>
 
     <script>
         const API_URL = '';
+        const SESSAO_KEY = 'chamados_sessao_ativa';
+        const USUARIOS_KEY = 'chamados_usuarios_cadastrados';
+        const DEV_USER = 'dev@sistema.local';
+        const DEV_PASS = 'dev123';
+
         let chamadosCache = [];
 
         function mostrarToast(mensagem) {
@@ -466,6 +687,142 @@
             setTimeout(() => toast.classList.remove('visivel'), 2800);
         }
 
+        /* ==================== AUTENTICAÇÃO ==================== */
+        function trocarAbaAuth(aba) {
+            document.getElementById('tab-login').classList.toggle('active', aba === 'login');
+            document.getElementById('tab-cadastro').classList.toggle('active', aba === 'cadastro');
+            document.getElementById('tab-dev').classList.toggle('active', aba === 'dev');
+
+            document.getElementById('form-login').classList.toggle('hidden', aba !== 'login');
+            document.getElementById('form-cadastro').classList.toggle('hidden', aba !== 'cadastro');
+            document.getElementById('form-dev').classList.toggle('hidden', aba !== 'dev');
+        }
+
+        function obterUsuariosCadastrados() {
+            try {
+                return JSON.parse(localStorage.getItem(USUARIOS_KEY)) || [];
+            } catch {
+                return [];
+            }
+        }
+
+        function salvarUsuariosCadastrados(lista) {
+            localStorage.setItem(USUARIOS_KEY, JSON.stringify(lista));
+        }
+
+        function preencherDev() {
+            document.getElementById('dev-usuario').value = DEV_USER;
+            document.getElementById('dev-chave').value = DEV_PASS;
+        }
+
+        function iniciarSessao(sessao) {
+            localStorage.setItem(SESSAO_KEY, JSON.stringify(sessao));
+            verificarSessao();
+            mostrarToast(`Bem-vindo, ${sessao.nome}!`);
+        }
+
+        function sairDoSistema() {
+            localStorage.removeItem(SESSAO_KEY);
+            verificarSessao();
+            mostrarToast('Você saiu da sessão.');
+        }
+
+        function fazerLoginUsuario(event) {
+            event.preventDefault();
+            const identificador = document.getElementById('login-email').value.trim().toLowerCase();
+            const senha = document.getElementById('login-senha').value;
+
+            const usuarios = obterUsuariosCadastrados();
+            const encontrado = usuarios.find(
+                u => (u.email.toLowerCase() === identificador || u.nome.toLowerCase() === identificador) && u.senha === senha
+            );
+
+            if (!encontrado) {
+                mostrarToast('Credenciais inválidas. Cadastre-se ou verifique os dados.');
+                return;
+            }
+
+            iniciarSessao({
+                nome: encontrado.nome,
+                email: encontrado.email,
+                role: 'usuario'
+            });
+        }
+
+        function cadastrarUsuario(event) {
+            event.preventDefault();
+            const nome = document.getElementById('cad-nome').value.trim();
+            const email = document.getElementById('cad-email').value.trim().toLowerCase();
+            const senha = document.getElementById('cad-senha').value;
+
+            if (!nome || !email || !senha) {
+                mostrarToast('Preencha todos os campos do cadastro.');
+                return;
+            }
+
+            const usuarios = obterUsuariosCadastrados();
+            if (usuarios.some(u => u.email.toLowerCase() === email)) {
+                mostrarToast('Este e-mail já está cadastrado.');
+                return;
+            }
+
+            const novoUsuario = { nome, email, senha };
+            usuarios.push(novoUsuario);
+            salvarUsuariosCadastrados(usuarios);
+
+            document.getElementById('form-cadastro').reset();
+            iniciarSessao({ nome, email, role: 'usuario' });
+        }
+
+        function fazerLoginDev(event) {
+            event.preventDefault();
+            const usuario = document.getElementById('dev-usuario').value.trim().toLowerCase();
+            const chave = document.getElementById('dev-chave').value;
+
+            if (usuario === DEV_USER && chave === DEV_PASS) {
+                iniciarSessao({
+                    nome: 'Desenvolvedor',
+                    email: DEV_USER,
+                    role: 'dev'
+                });
+            } else {
+                mostrarToast('Chave de desenvolvedor incorreta.');
+            }
+        }
+
+        function verificarSessao() {
+            const raw = localStorage.getItem(SESSAO_KEY);
+            const telaAuth = document.getElementById('tela-auth');
+            const telaSistema = document.getElementById('tela-sistema');
+            const badgeSessao = document.getElementById('badge-sessao');
+
+            if (!raw) {
+                telaAuth.classList.remove('hidden');
+                telaSistema.classList.add('hidden');
+                return;
+            }
+
+            const sessao = JSON.parse(raw);
+            telaAuth.classList.add('hidden');
+            telaSistema.classList.remove('hidden');
+
+            if (sessao.role === 'dev') {
+                badgeSessao.textContent = `DEV • ${sessao.nome}`;
+                badgeSessao.classList.add('dev-pill');
+            } else {
+                badgeSessao.textContent = `Usuário • ${sessao.nome}`;
+                badgeSessao.classList.remove('dev-pill');
+            }
+
+            const campoSolicitante = document.getElementById('solicitante');
+            if (campoSolicitante && !campoSolicitante.value && sessao.role !== 'dev') {
+                campoSolicitante.value = sessao.nome;
+            }
+
+            carregarChamados();
+        }
+
+        /* ==================== CHAMADOS ==================== */
         function atualizarStats(chamados) {
             document.getElementById('stat-total').textContent = chamados.length;
             document.getElementById('stat-ativos').textContent = chamados.filter(c => c.status !== 'Resolvido').length;
@@ -654,7 +1011,7 @@
             }
         }
 
-        carregarChamados();
+        verificarSessao();
     </script>
 </body>
 </html>
